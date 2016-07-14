@@ -16,9 +16,9 @@ import de.elite12.musikbot.shared.Util.SpotifyPlaylistHelper;
 public class UtilgetSPIDTest {
 
     private String in;
-    private String expected;
+    private SpotifyPlaylistHelper expected;
 
-    public UtilgetSPIDTest(String link, String expe) {
+    public UtilgetSPIDTest(String link, SpotifyPlaylistHelper expe) {
         this.in = link;
         this.expected = expe;
     }
