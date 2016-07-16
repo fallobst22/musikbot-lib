@@ -3,14 +3,11 @@ package de.elite12.musikbot.shared;
 import java.io.Serializable;
 
 public class Command implements Serializable {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 2638416315216366043L;
-    /**
-     * 
-     */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4864747885584003602L;
     public static final int WRONG_COMMAND_SECQUENCE = -2;
     public static final int INVALID = -1;
     public static final int EMPTY = 0;
