@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +16,9 @@ import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AlbumRequest;
 import com.wrapper.spotify.methods.PlaylistRequest;
 import com.wrapper.spotify.methods.TrackRequest;
+import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
 import com.wrapper.spotify.models.Album;
+import com.wrapper.spotify.models.ClientCredentials;
 import com.wrapper.spotify.models.Playlist;
 import com.wrapper.spotify.models.Track;
 
@@ -23,6 +27,28 @@ public class Util {
     private static final String clientSecret = "6506ca3b6d494c0f8c7c22b30218e9b4";
 
     private static final Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).build();
+
+    private static boolean authorized = false;
+
+    private static synchronized void check() {
+        if (authorized) {
+            return;
+        }
+        ClientCredentialsGrantRequest request = api.clientCredentialsGrant().build();
+        try {
+            ClientCredentials c = request.get();
+            api.setAccessToken(c.getAccessToken());
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Util.authorized = false;
+                }
+            }, (long) (c.getExpiresIn() * 1000 * 0.8));
+            authorized = true;
+        } catch (IOException | WebApiException e) {
+            Logger.getLogger(Util.class).error("Error refreshing Token", e);
+        }
+    }
 
     public static String getVID(String youtubeUrl) {
         if (youtubeUrl != null && youtubeUrl.trim().length() > 0 && youtubeUrl.startsWith("http")) {
@@ -146,7 +172,7 @@ public class Util {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.lang.Object#toString()
          */
         @Override
@@ -173,6 +199,7 @@ public class Util {
         if (sid == null) {
             return null;
         }
+        check();
         TrackRequest r = api.getTrack(sid).build();
         try {
             Track t = r.get();
@@ -187,6 +214,7 @@ public class Util {
         if (sid == null) {
             return null;
         }
+        check();
         AlbumRequest r = api.getAlbum(sid).build();
         try {
             Album t = r.get();
@@ -198,15 +226,10 @@ public class Util {
     }
 
     public static Playlist getPlaylist(String uid, String sid) {
-        try {
-            api.setAccessToken(
-                    api.clientCredentialsGrant().grantType("client_credentials").build().get().getAccessToken());
-        } catch (IOException | WebApiException e1) {
-            Logger.getLogger(Util.class).error("Cant get Authtoken: ", e1);
-        }
         if (sid == null) {
             return null;
         }
+        check();
         PlaylistRequest r = api.getPlaylist(uid, sid).build();
         try {
             Playlist t = r.get();
