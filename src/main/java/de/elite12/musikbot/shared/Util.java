@@ -203,6 +203,9 @@ public class Util {
         TrackRequest r = api.getTrack(sid).build();
         try {
             Track t = r.get();
+            if (!t.getAvailableMarkets().contains("DE")) {
+                t = null;
+            }
             return t;
         } catch (Exception e) {
             Logger.getLogger(Util.class).error("Error reading Track", e);
