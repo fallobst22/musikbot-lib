@@ -203,7 +203,7 @@ public class Util {
         TrackRequest r = api.getTrack(sid).build();
         try {
             Track t = r.get();
-            if (!t.getAvailableMarkets().contains("DE")) {
+            if (!t.getAvailableMarkets().contains("DE") && !t.getAvailableMarkets().isEmpty()) {
                 t = null;
             }
             return t;
