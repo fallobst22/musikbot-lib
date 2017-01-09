@@ -57,7 +57,7 @@ public class TrackInfoTest {
         return Arrays.asList(new Object[][] { { null, null, null, null }, { "", null, null, null },
                 { "asdblub", null, null, null }, { "0BCPKOYdS2jbQ8iyB56Zns", new Integer(308), "Clocks", "Coldplay" },
                 { "60a0Rd6pjrkxjPbaKzXjfq", new Integer(219), "In The End", "Linkin Park" },
-                { "5sNESr6pQfIhL3krM8CtZn", new Integer(205), "Numb/Encore", "JAY Z" },
+                { "5sNESr6pQfIhL3krM8CtZn", new Integer(206), "Numb/Encore", "JAY Z" },
                 { "5xioIP2HexKl3QsI8JDlG8", new Integer(315), "No Other Plans", "Sunny Levine" },
                 { "6COTbWO858qpfqxk0g4oYX", new Integer(202),
                         "5) He's A Pirate - Pirate Of The Carribbean - Launchpad Orchestral Live Remix",
