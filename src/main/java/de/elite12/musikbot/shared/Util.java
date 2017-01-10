@@ -15,11 +15,14 @@ import com.wrapper.spotify.Api;
 import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AlbumRequest;
 import com.wrapper.spotify.methods.PlaylistRequest;
+import com.wrapper.spotify.methods.PlaylistTracksRequest;
 import com.wrapper.spotify.methods.TrackRequest;
 import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
 import com.wrapper.spotify.models.Album;
 import com.wrapper.spotify.models.ClientCredentials;
+import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.Playlist;
+import com.wrapper.spotify.models.PlaylistTrack;
 import com.wrapper.spotify.models.Track;
 
 public class Util {
@@ -237,6 +240,36 @@ public class Util {
         try {
             Playlist t = r.get();
             return t;
+        } catch (Exception e) {
+            Logger.getLogger(Util.class).error("Error reading Playlist", e);
+            return null;
+        }
+    }
+
+    public static Track getTrackfromPlaylist(String uid, String sid, int id) {
+        if (sid == null || uid == null) {
+            return null;
+        }
+        check();
+        PlaylistTracksRequest r = api.getPlaylistTracks(uid, sid).limit(1).offset(id).build();
+        try {
+            Page<PlaylistTrack> t = r.get();
+            return t.getItems().get(0).getTrack();
+        } catch (Exception e) {
+            Logger.getLogger(Util.class).error("Error reading Playlist", e);
+            return null;
+        }
+    }
+
+    public static Integer getPlaylistlength(String uid, String sid) {
+        if (sid == null || uid == null) {
+            return null;
+        }
+        check();
+        PlaylistTracksRequest r = api.getPlaylistTracks(uid, sid).limit(1).offset(0).build();
+        try {
+            Page<PlaylistTrack> t = r.get();
+            return t.getTotal();
         } catch (Exception e) {
             Logger.getLogger(Util.class).error("Error reading Playlist", e);
             return null;
