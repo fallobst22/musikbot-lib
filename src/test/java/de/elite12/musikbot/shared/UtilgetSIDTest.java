@@ -38,7 +38,8 @@ public class UtilgetSIDTest {
 				 {"http://play.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq","60a0Rd6pjrkxjPbaKzXjfq"},
 				 {"http://play.spotify.com/track/5sNESr6pQfIhL3krM8CtZn","5sNESr6pQfIhL3krM8CtZn"},
 				 {"spotify:track:5xioIP2HexKl3QsI8JDlG8","5xioIP2HexKl3QsI8JDlG8"},
-				 {"http://open.spotify.com/track/5pqF0qKSQCEq5mt5CFEXoq","5pqF0qKSQCEq5mt5CFEXoq"}});
+				 {"http://open.spotify.com/track/5pqF0qKSQCEq5mt5CFEXoq","5pqF0qKSQCEq5mt5CFEXoq"},
+				 {"https://open.spotify.com/track/6tBdTwcyyGq1HU3PXgZK82?si=rnSOfIimRraXvum_lzM3fw","6tBdTwcyyGq1HU3PXgZK82"}});
 	}
 
 }

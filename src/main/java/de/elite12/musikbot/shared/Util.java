@@ -95,7 +95,7 @@ public class Util {
 
     public static String getSID(String spotifyUrl) {
         if (spotifyUrl != null && spotifyUrl.trim().length() > 0) {
-            String expression = "^(?:spotify:track:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/track\\/)([a-zA-Z0-9_]{22})$";
+            String expression = "^(?:spotify:track:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/track\\/)([a-zA-Z0-9_]{22})(?:.*)$";
             CharSequence input = spotifyUrl;
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
