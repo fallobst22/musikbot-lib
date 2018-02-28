@@ -108,7 +108,7 @@ public class Util {
 
     public static String getSAID(String spotifyUrl) {
         if (spotifyUrl != null && spotifyUrl.trim().length() > 0) {
-            String expression = "^(?:spotify:album:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/album\\/)([a-zA-Z0-9]{22})$";
+            String expression = "^(?:spotify:album:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/album\\/)([a-zA-Z0-9]{22})(?:.*)$";
             CharSequence input = spotifyUrl;
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
@@ -189,7 +189,7 @@ public class Util {
 
     public static SpotifyPlaylistHelper getSPID(String spotifyUrl) {
         if (spotifyUrl != null && spotifyUrl.trim().length() > 0) {
-            String expression = "^(?:spotify:user:([\\S\\d]+):playlist:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/user\\/([\\S\\d]+)\\/playlist\\/)([a-zA-Z0-9]{22})$";
+            String expression = "^(?:spotify:user:([\\S\\d]+):playlist:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/user\\/([\\S\\d]+)\\/playlist\\/)([a-zA-Z0-9]{22})(?:.*)$";
             CharSequence input = spotifyUrl;
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(input);
