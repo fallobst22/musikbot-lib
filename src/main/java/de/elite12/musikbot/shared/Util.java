@@ -14,25 +14,25 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.log4j.Logger;
 
-import com.wrapper.spotify.Api;
-import com.wrapper.spotify.exceptions.WebApiException;
-import com.wrapper.spotify.methods.AlbumRequest;
-import com.wrapper.spotify.methods.PlaylistRequest;
-import com.wrapper.spotify.methods.PlaylistTracksRequest;
-import com.wrapper.spotify.methods.TrackRequest;
-import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
-import com.wrapper.spotify.models.Album;
-import com.wrapper.spotify.models.ClientCredentials;
-import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.Playlist;
-import com.wrapper.spotify.models.PlaylistTrack;
-import com.wrapper.spotify.models.Track;
+import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
+import com.wrapper.spotify.model_objects.specification.Album;
+import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.Playlist;
+import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
+import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import com.wrapper.spotify.requests.data.albums.GetAlbumRequest;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistsTracksRequest;
+import com.wrapper.spotify.requests.data.tracks.GetTrackRequest;
 
 public class Util {
     private static final String clientId = "32f75446eac041a7bc8b35330d289558";
     private static final String clientSecret = "6506ca3b6d494c0f8c7c22b30218e9b4";
 
-    private static final Api api = Api.builder().clientId(clientId).clientSecret(clientSecret).build();
+    private static final SpotifyApi api = new SpotifyApi.Builder().setClientId(clientId).setClientSecret(clientSecret).build();
 
     private static boolean authorized = false;
 
@@ -40,9 +40,10 @@ public class Util {
         if (authorized) {
             return;
         }
-        ClientCredentialsGrantRequest request = api.clientCredentialsGrant().build();
+        
+        ClientCredentialsRequest request = api.clientCredentials().build();
         try {
-            ClientCredentials c = request.get();
+            ClientCredentials c = request.execute();
             api.setAccessToken(c.getAccessToken());
             new Timer().schedule(new TimerTask() {
                 @Override
@@ -51,7 +52,7 @@ public class Util {
                 }
             }, (long) (c.getExpiresIn() * 1000 * 0.8));
             authorized = true;
-        } catch (IOException | WebApiException e) {
+        } catch (IOException | SpotifyWebApiException e) {
             Logger.getLogger(Util.class).error("Error refreshing Token", e);
         }
     }
@@ -202,81 +203,82 @@ public class Util {
     }
 
     public static Track getTrack(String sid) {
-        if (sid == null) {
+        if (sid == null || sid.isEmpty()) {
             return null;
         }
         check();
-        TrackRequest r = api.getTrack(sid).build();
+        GetTrackRequest r = api.getTrack(sid).build();
         try {
-            Track t = r.get();
+            Track t = r.execute();
             //if (!t.getAvailableMarkets().contains("DE") && !t.getAvailableMarkets().isEmpty()) {
             //    t = null;
             //}
             return t;
-        } catch (Exception e) {
+        } catch (IOException | SpotifyWebApiException e) {
             Logger.getLogger(Util.class).error("Error reading Track", e);
             return null;
         }
     }
 
     public static Album getAlbum(String sid) {
-        if (sid == null) {
+        if (sid == null || sid.isEmpty()) {
             return null;
         }
         check();
-        AlbumRequest r = api.getAlbum(sid).build();
+        GetAlbumRequest r = api.getAlbum(sid).build();
         try {
-            Album t = r.get();
+            Album t = r.execute();
             return t;
-        } catch (Exception e) {
+        } catch (IOException | SpotifyWebApiException e) {
             Logger.getLogger(Util.class).error("Error reading Album", e);
             return null;
         }
     }
 
     public static Playlist getPlaylist(String uid, String sid) {
-        if (sid == null) {
+        if (sid == null || uid == null || sid.isEmpty() || uid.isEmpty()) {
             return null;
         }
         check();
-        PlaylistRequest r = api.getPlaylist(uid, sid).build();
+        
+        //TODO: Change according to new Playlist format
+        //This has been rolled back by spotify
+        //https://developer.spotify.com/community/news/2018/06/12/changes-to-playlist-uris/
+        @SuppressWarnings("deprecation")
+		GetPlaylistRequest r = api.getPlaylist(uid, sid).build();
         try {
-            Playlist t = r.get();
+            Playlist t = r.execute();
             return t;
-        } catch (Exception e) {
+        } catch (IOException | SpotifyWebApiException e) {
             Logger.getLogger(Util.class).error("Error reading Playlist", e);
             return null;
         }
     }
 
     public static Track getTrackfromPlaylist(String uid, String sid, int id) {
-        if (sid == null || uid == null) {
+        if (sid == null || uid == null || sid.isEmpty() || uid.isEmpty()) {
             return null;
         }
         check();
-        PlaylistTracksRequest r = api.getPlaylistTracks(uid, sid).limit(1).offset(id).build();
+        //TODO: s.o.
+        @SuppressWarnings("deprecation")
+        GetPlaylistsTracksRequest r = api.getPlaylistsTracks(uid, sid).limit(1).offset(id).build();
         try {
-            Page<PlaylistTrack> t = r.get();
-            return t.getItems().get(0).getTrack();
-        } catch (Exception e) {
+        	Paging<PlaylistTrack> t = r.execute();
+            return t.getItems()[0].getTrack();
+        } catch (IOException | SpotifyWebApiException | ArrayIndexOutOfBoundsException e) {
             Logger.getLogger(Util.class).error("Error reading Playlist", e);
             return null;
         }
     }
 
     public static Integer getPlaylistlength(String uid, String sid) {
-        if (sid == null || uid == null) {
+        if (sid == null || uid == null || sid.isEmpty() || uid.isEmpty()) {
             return null;
         }
         check();
-        PlaylistTracksRequest r = api.getPlaylistTracks(uid, sid).limit(1).offset(0).build();
-        try {
-            Page<PlaylistTrack> t = r.get();
-            return t.getTotal();
-        } catch (Exception e) {
-            Logger.getLogger(Util.class).error("Error reading Playlist", e);
-            return null;
-        }
+        
+        return Util.getPlaylist(uid, sid).getTracks().getTotal();
     }
 
     public static String hex(byte[] array) {

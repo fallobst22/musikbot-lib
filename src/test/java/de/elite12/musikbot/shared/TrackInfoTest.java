@@ -13,7 +13,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.wrapper.spotify.models.Track;
+import com.wrapper.spotify.model_objects.specification.Track;
+
 
 /**
  * @author sven
@@ -44,10 +45,9 @@ public class TrackInfoTest {
                 fail("Track is null: " + this.in);
             }
         } else {
-            assertEquals(this.length,
-                    new Integer((int) Math.round(new Integer(track.getDuration()).doubleValue() / 1000)));
+            assertEquals(this.length, ((Integer)(int)Math.round(track.getDurationMs().doubleValue() / 1000)));
             assertEquals(this.name, track.getName());
-            assertEquals(this.artist, track.getArtists().get(0).getName());
+            assertEquals(this.artist, track.getArtists()[0].getName());
         }
     }
 
@@ -55,11 +55,11 @@ public class TrackInfoTest {
     @Parameters
     public static Collection input() {
         return Arrays.asList(new Object[][] { { null, null, null, null }, { "", null, null, null },
-                { "asdblub", null, null, null }, { "0BCPKOYdS2jbQ8iyB56Zns", new Integer(308), "Clocks", "Coldplay" },
-                { "60a0Rd6pjrkxjPbaKzXjfq", new Integer(219), "In The End", "Linkin Park" },
-                { "5sNESr6pQfIhL3krM8CtZn", new Integer(206), "Numb / Encore", "JAY Z" },
-                { "5xioIP2HexKl3QsI8JDlG8", new Integer(315), "No Other Plans", "Sunny Levine" },
-                { "6COTbWO858qpfqxk0g4oYX", new Integer(202),
+                { "asdblub", null, null, null }, { "0BCPKOYdS2jbQ8iyB56Zns", (308), "Clocks", "Coldplay" },
+                { "60a0Rd6pjrkxjPbaKzXjfq", (217), "In The End", "Linkin Park" },
+                { "5sNESr6pQfIhL3krM8CtZn", (206), "Numb / Encore", "JAY Z" },
+                { "5xioIP2HexKl3QsI8JDlG8", (315), "No Other Plans", "Sunny Levine" },
+                { "6COTbWO858qpfqxk0g4oYX", (202),
                         "5) He's A Pirate - Pirate Of The Carribbean - Launchpad Orchestral Live Remix",
                         "Giulio's Page" },
                 { "5xioIPasd2HexKl3QsI8JDlG8", null, null, null }, { "5xioIP2HexKl3fQsI8JDlG8", null, null, null },
