@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.elite12.musikbot.shared.Util;
+import de.elite12.musikbot.shared.SongIDParser;
 
 @RunWith(Parameterized.class)
 public class UtilgetPIDTest {
@@ -25,7 +25,7 @@ public class UtilgetPIDTest {
 
 	@Test
 	public final void testGetPID() {
-		assertEquals(expected, Util.getPID(in));
+		assertEquals(expected, SongIDParser.getPID(in));
 	}
 	
 	

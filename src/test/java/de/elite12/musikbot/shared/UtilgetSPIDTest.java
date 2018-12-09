@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.elite12.musikbot.shared.Util.SpotifyPlaylistHelper;
+import de.elite12.musikbot.shared.SongIDParser.SpotifyPlaylistHelper;
 
 @RunWith(Parameterized.class)
 public class UtilgetSPIDTest {
@@ -25,7 +25,7 @@ public class UtilgetSPIDTest {
 
     @Test
     public final void testGetSID() {
-        assertEquals(expected, Util.getSPID(in));
+        assertEquals(expected, SongIDParser.getSPID(in));
     }
 
     @SuppressWarnings("rawtypes")

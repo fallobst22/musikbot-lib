@@ -23,7 +23,7 @@ public class GetSAIDTest {
 
 	@Test
 	public final void testGetSID() {
-		assertEquals(expected, Util.getSAID(in)); // TODO
+		assertEquals(expected, SongIDParser.getSAID(in)); // TODO
 	}
 	@SuppressWarnings("rawtypes")
 	@Parameters

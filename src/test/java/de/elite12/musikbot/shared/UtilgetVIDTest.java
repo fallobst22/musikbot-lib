@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.elite12.musikbot.shared.Util;
+import de.elite12.musikbot.shared.SongIDParser;
 
 @RunWith(Parameterized.class)
 public class UtilgetVIDTest {
@@ -25,7 +25,7 @@ public class UtilgetVIDTest {
 
 	@Test
 	public final void testGetVID() {
-		assertEquals(expected, Util.getVID(in));
+		assertEquals(expected, SongIDParser.getVID(in));
 	}
 	
 	

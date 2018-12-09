@@ -23,7 +23,7 @@ public class UtilgetSAIDTest {
 
     @Test
     public final void testGetSID() {
-        assertEquals(expected, Util.getSAID(in));
+        assertEquals(expected, SongIDParser.getSAID(in));
     }
 
     @SuppressWarnings("rawtypes")
