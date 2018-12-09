@@ -219,6 +219,16 @@ public class Util {
             return null;
         }
     }
+    
+    public static Track getTrackRaw(String sid) throws SpotifyWebApiException, IOException {
+        if (sid == null || sid.isEmpty()) {
+            return null;
+        }
+        check();
+        GetTrackRequest r = api.getTrack(sid).build();
+        Track t = r.execute();
+        return t;
+    }
 
     public static Album getAlbum(String sid) {
         if (sid == null || sid.isEmpty()) {
