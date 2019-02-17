@@ -33,7 +33,6 @@ public class Song implements Serializable {
     private int sort;
     private int dauer;
     private String type;
-    @XmlElement
     private String gravatarid;
 
     public Song() {
@@ -196,6 +195,7 @@ public class Song implements Serializable {
         return this.type;
     }
 
+    @XmlElement
     public String getGravatarid() {
         return gravatarid;
     }
