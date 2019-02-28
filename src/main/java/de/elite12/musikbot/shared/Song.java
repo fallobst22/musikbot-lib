@@ -194,6 +194,10 @@ public class Song implements Serializable {
     public String gettype() {
         return this.type;
     }
+    
+    public void settype(String type) {
+        this.type = type;
+    }
 
     @XmlElement
     public String getGravatarid() {
