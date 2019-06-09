@@ -10,15 +10,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.elite12.musikbot.shared.SongIDParser.SpotifyPlaylistHelper;
-
 @RunWith(Parameterized.class)
 public class UtilgetSPIDTest {
 
     private String in;
-    private SpotifyPlaylistHelper expected;
+    private String expected;
 
-    public UtilgetSPIDTest(String link, SpotifyPlaylistHelper expe) {
+    public UtilgetSPIDTest(String link, String expe) {
         this.in = link;
         this.expected = expe;
     }
@@ -32,12 +30,12 @@ public class UtilgetSPIDTest {
     @Parameters
     public static Collection input() {
         return Arrays.asList(new Object[][] { { null, null }, { "", null }, { "asdblub", null },
-                { "spotify:user:rocketbeanstv:playlist:6Jp03bPknRPDM04qCzAsC7",
-                        new SpotifyPlaylistHelper("rocketbeanstv", "6Jp03bPknRPDM04qCzAsC7") },
-                { "https://open.spotify.com/user/rocketbeanstv/playlist/6Jp03bPknRPDM04qCzAsC7",
-                        new SpotifyPlaylistHelper("rocketbeanstv", "6Jp03bPknRPDM04qCzAsC7") },
-                { "spotify:user:1127622769:playlist:7Isff8LtbeEFmhqNlQGrpE",
-                        new SpotifyPlaylistHelper("1127622769", "7Isff8LtbeEFmhqNlQGrpE") } });
+                { "spotify:playlist:6Jp03bPknRPDM04qCzAsC7",
+                        "6Jp03bPknRPDM04qCzAsC7"},
+                { "https://open.spotify.com/playlist/6Jp03bPknRPDM04qCzAsC7",
+                        "6Jp03bPknRPDM04qCzAsC7"},
+                { "spotify:playlist:7Isff8LtbeEFmhqNlQGrpE",
+                       "7Isff8LtbeEFmhqNlQGrpE"} });
     }
 
 }

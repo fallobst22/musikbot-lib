@@ -69,83 +69,13 @@ public class SongIDParser {
         return null;
     }
 
-    public static class SpotifyPlaylistHelper {
-        public String user;
-        public String pid;
-
-        public SpotifyPlaylistHelper(String u, String p) {
-            user = u;
-            pid = p;
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + (pid == null ? 0 : pid.hashCode());
-            result = prime * result + (user == null ? 0 : user.hashCode());
-            return result;
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            SpotifyPlaylistHelper other = (SpotifyPlaylistHelper) obj;
-            if (pid == null) {
-                if (other.pid != null) {
-                    return false;
-                }
-            } else if (!pid.equals(other.pid)) {
-                return false;
-            }
-            if (user == null) {
-                if (other.user != null) {
-                    return false;
-                }
-            } else if (!user.equals(other.user)) {
-                return false;
-            }
-            return true;
-        }
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.lang.Object#toString()
-         */
-        @Override
-        public String toString() {
-            return "https://open.spotify.com/user/" + user + "/playlist/" + pid;
-        }
-    }
-
-    public static SpotifyPlaylistHelper getSPID(String spotifyUrl) {
+    public static String getSPID(String spotifyUrl) {
         if (spotifyUrl != null && spotifyUrl.trim().length() > 0) {
-            String expression = "^(?:spotify:user:([\\S\\d]+):playlist:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/user\\/([\\S\\d]+)\\/playlist\\/)([a-zA-Z0-9]{22})(?:.*)$";
-            CharSequence input = spotifyUrl;
+            String expression = "^(?:spotify:playlist:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/playlist\\/)([a-zA-Z0-9]{22})(?:.*)$";
             Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(input);
+            Matcher matcher = pattern.matcher(spotifyUrl);
             if (matcher.matches()) {
-                return new SpotifyPlaylistHelper(matcher.group(1) == null ? matcher.group(2) : matcher.group(1),
-                        matcher.group(3));
+                return matcher.group(1);
             }
         }
         return null;
