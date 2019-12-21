@@ -1,4 +1,4 @@
-package de.elite12.musikbot.shared;
+package de.elite12.musikbot.shared.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
