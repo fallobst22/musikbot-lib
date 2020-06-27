@@ -80,4 +80,16 @@ public class SongIDParser {
         }
         return null;
     }
+
+    public static String getSARID(String spotifyUrl) {
+        if (spotifyUrl != null && spotifyUrl.trim().length() > 0) {
+            String expression = "^(?:spotify:artist:|(?:http|https)\\:\\/\\/(?:play|open)\\.spotify\\.com\\/artist\\/)([a-zA-Z0-9]{22})(?:.*)$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(spotifyUrl);
+            if (matcher.matches()) {
+                return matcher.group(1);
+            }
+        }
+        return null;
+    }
 }
