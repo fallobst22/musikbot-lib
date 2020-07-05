@@ -4,7 +4,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <artifactId>libmusikbot</artifactId>
   <name>libmusikbot</name>
+  <packaging>jar</packaging>
   <build>
+      <finalName>${artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
