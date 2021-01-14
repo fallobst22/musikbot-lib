@@ -12,6 +12,6 @@ public class SimpleCommand implements ClientDTO {
     private CommandType command;
 
     public static enum CommandType {
-        PAUSE,STOP,SHUTDOWN
+        PAUSE,STOP,SHUTDOWN,REQUEST_SONG
     }
 }
